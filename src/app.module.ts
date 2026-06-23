@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoriesModule } from './categories/categories.module';
 import { ProductsModule } from './products/products.module';
 import { VariationsModule } from './variations/variations.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { ProductMediaModule } from './product_media/product_media.module';
 
 @Module({
   imports: [
@@ -27,6 +29,10 @@ import { VariationsModule } from './variations/variations.module';
     ProductsModule,
 
     VariationsModule,
+
+    CloudinaryModule,
+
+    ProductMediaModule,
   ],
   controllers: [],
   providers: [],

@@ -9,7 +9,7 @@ export class Category {
   @Column({ type: 'varchar', length: 100, unique: true, nullable: false })
   name!: string; 
 
-  @OneToMany(() => Product, (product) => product.category)
+ @OneToMany(() => Product, (product) => product.categoryId)
   products!: Product[];
 
   @CreateDateColumn({ name: 'created_at' })

@@ -13,11 +13,8 @@ export class Product {
   @Column({ type: 'text', nullable: true })
   description!: string;
 
-  @Column({ type: 'text', nullable: false })
-  imageUrl!: string; 
-
   @ManyToOne(() => Category, (category) => category.products, { onDelete: 'SET NULL' })
-  category!: Category;
+  categoryId!: Category;
 
   @OneToMany(() => ProductVariant, (variant) => variant.product)
   variants!: ProductVariant[];
