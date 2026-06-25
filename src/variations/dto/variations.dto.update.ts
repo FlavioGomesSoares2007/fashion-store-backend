@@ -10,7 +10,7 @@ import {
   IsOptional,
 } from 'class-validator';
 
-export class CreateProductVariantDto {
+export class UpdateProductVariantDto {
   @IsOptional()
   @IsString({ message: 'SKU must be a string' })
   @IsNotEmpty({ message: 'SKU cannot be empty' })

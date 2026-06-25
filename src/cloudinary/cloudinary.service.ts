@@ -16,32 +16,26 @@ export class CloudinaryService {
       throw new BadRequestException('Nenhum arquivo foi enviado.');
     }
 
-    const isVideo = file.mimetype.startsWith('video/');
-    const resourceType = isVideo ? 'video' : 'image';
+    const isImage = file.mimetype.startsWith('image/');
+    if (!isImage) {
+      throw new BadRequestException(
+        'Apenas arquivos de imagem são permitidos para as roupas.',
+      );
+    }
 
     return new Promise((resolve, reject) => {
-      const uploadOptions: any = {
+      const uploadOptions = {
         folder: 'fashion-store-media',
-        resource_type: resourceType,
-      };
-
-      if (!isVideo) {
-        uploadOptions.transformation = [
+        resource_type: 'image' as const,
+        format: 'webp',
+        transformation: [
           {
             width: 800,
             crop: 'limit',
             quality: 'auto',
-            fetch_format: 'auto',
           },
-        ];
-      } else {
-        uploadOptions.transformation = [
-          {
-            quality: 'auto',
-            fetch_format: 'auto',
-          },
-        ];
-      }
+        ],
+      };
 
       const uploadStream = cloudinary.uploader.upload_stream(
         uploadOptions,
@@ -50,8 +44,30 @@ export class CloudinaryService {
           if (result) return resolve(result);
         },
       );
-
       Readable.from(file.buffer).pipe(uploadStream);
     });
+  }
+  async deleteFile(publicId: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      cloudinary.uploader.destroy(publicId, (error, result) => {
+        if (error) return reject(error);
+        return resolve(result);
+      });
+    });
+  }
+  extractPublicIdFromUrl(url: string) {
+    if (!url) return '';
+
+    const parts = url.split('/upload/');
+    if (parts.length < 2) return '';
+
+    const publicIdWithExtension = parts[1].replace(/^v\d+\//, '');
+
+    const publicId = publicIdWithExtension.substring(
+      0,
+      publicIdWithExtension.lastIndexOf('.'),
+    );
+
+    return publicId;
   }
 }

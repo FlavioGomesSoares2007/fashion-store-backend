@@ -2,22 +2,23 @@ import {
   Injectable,
   ConflictException,
   NotFoundException,
-  BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/products.entity';
 import { Repository } from 'typeorm';
 import { CreateProductDto } from './dto/products.dto.create';
 import { UpdateProductDto } from './dto/products.dto.update';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    private readonly cloudinaryService: CloudinaryService,
   ) {}
 
-  async create(dados: CreateProductDto) {
+  async create(dados: CreateProductDto): Promise<Product> {
     const existingProduct = await this.productRepository.findOne({
       where: { name: dados.name },
     });
@@ -26,11 +27,12 @@ export class ProductsService {
         `Product with name "${dados.name}" already exists.`,
       );
     }
+
     const product = this.productRepository.create({
       ...dados,
       categoryId: { id: dados.categoryId },
     });
-    return this.productRepository.save(product);
+    return await this.productRepository.save(product);
   }
   async findAll(): Promise<Product[]> {
     return await this.productRepository.find({
@@ -65,6 +67,7 @@ export class ProductsService {
         );
       }
     }
+
     Object.assign(product, updateProductDto);
     return this.productRepository.save(product);
   }

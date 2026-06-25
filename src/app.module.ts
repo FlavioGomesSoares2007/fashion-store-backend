@@ -5,7 +5,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { ProductsModule } from './products/products.module';
 import { VariationsModule } from './variations/variations.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
-import { ProductMediaModule } from './product_media/product_media.module';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -32,9 +33,9 @@ import { ProductMediaModule } from './product_media/product_media.module';
 
     CloudinaryModule,
 
-    ProductMediaModule,
+    UserModule,
+
+    AuthModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
