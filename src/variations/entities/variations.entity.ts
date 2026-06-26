@@ -5,8 +5,10 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { Product } from '../../products/entities/products.entity';
+import { PhotosOfTheVariants } from '../../photos-of-the-variants/entities/photos-of-the-variants.entity';
 
 @Entity('product_variants')
 export class ProductVariant {
@@ -35,6 +37,9 @@ export class ProductVariant {
     onDelete: 'CASCADE',
   })
   product!: Product;
+
+  @OneToMany(() => PhotosOfTheVariants, (photos) => photos.variationsId,)
+  images!: PhotosOfTheVariants[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;

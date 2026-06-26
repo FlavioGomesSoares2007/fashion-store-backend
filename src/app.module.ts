@@ -7,6 +7,7 @@ import { VariationsModule } from './variations/variations.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { PhotosOfTheVariantsModule } from './photos-of-the-variants/photos-of-the-variants.module';
 
 @Module({
   imports: [
@@ -36,6 +37,8 @@ import { AuthModule } from './auth/auth.module';
     UserModule,
 
     AuthModule,
+
+    PhotosOfTheVariantsModule,
   ],
 })
 export class AppModule {}
